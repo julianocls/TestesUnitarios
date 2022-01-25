@@ -35,11 +35,15 @@ public class LocacaoService {
 			totalPrecoLocacao += filme.getPrecoLocacao();
 		}
 
+		Double desconto = getValorTotalDescontos(filmes);
+		totalPrecoLocacao -= desconto;
+
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
 		locacao.setValor(totalPrecoLocacao);
+		locacao.setTotalDescontos(desconto);
 
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
@@ -50,6 +54,19 @@ public class LocacaoService {
 		//TODO adicionar método para salvar
 
 		return locacao;
+	}
+
+	private Double getValorTotalDescontos(List<Filme> filmes) {
+		Double desconto = 0.00;
+		for (Filme filme : filmes) {
+			desconto += filme.getPrecoLocacao() * getPercentualDesconto(filmes.indexOf(filme));
+		}
+		return desconto;
+	}
+
+	private Double getPercentualDesconto(int posicao) {
+		Double[] desconto = {0d, 0d, 25d, 50d, 75d, 100d };
+		return posicao > (desconto.length - 1) ? 0 : desconto[posicao] / 100;
 	}
 
 }

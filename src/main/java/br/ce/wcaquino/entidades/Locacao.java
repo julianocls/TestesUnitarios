@@ -11,6 +11,7 @@ public class Locacao {
 	private Date dataLocacao;
 	private Date dataRetorno;
 	private Double valor;
+	private Double totalDescontos;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -38,4 +39,6 @@ public class Locacao {
 	}
 	public List<Filme> getFilmes() {return filmes;}
 	public void setFilmes(List<Filme> filmes) {	this.filmes = filmes;}
+	public Double getTotalDescontos() {return totalDescontos;}
+	public void setTotalDescontos(Double totalDescontos) {this.totalDescontos = totalDescontos;}
 }
