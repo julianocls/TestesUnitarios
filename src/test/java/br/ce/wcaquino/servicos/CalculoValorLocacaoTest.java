@@ -1,5 +1,6 @@
 package br.ce.wcaquino.servicos;
 
+import br.ce.wcaquino.builder.UsuarioBuilder;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -16,6 +17,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static br.ce.wcaquino.builder.FilmeBuilder.filme;
+import static br.ce.wcaquino.builder.UsuarioBuilder.usuario;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -38,13 +41,13 @@ public class CalculoValorLocacaoTest {
     @Parameter(value = 2)
     public String cenario;
 
-    public static final Filme filme1 = new Filme("Filme 1", 2, 10.0);
-    public static final Filme filme2 = new Filme("Filme 2", 5, 10.0);
-    public static final Filme filme3 = new Filme("Filme 3", 5, 10.0);
-    public static final Filme filme4 = new Filme("Filme 4", 5, 10.0);
-    public static final Filme filme5 = new Filme("Filme 5", 5, 10.0);
-    public static final Filme filme6 = new Filme("Filme 6", 5, 10.0);
-    public static final Filme filme7 = new Filme("Filme 7", 5, 10.0);
+    public static final Filme filme1 = filme().comValor(10.00).agora(); //new Filme("Filme 1", 2, 10.0);
+    public static final Filme filme2 = filme().comValor(10.00).agora(); //new Filme("Filme 2", 5, 10.0);
+    public static final Filme filme3 = filme().comValor(10.00).agora(); //new Filme("Filme 3", 5, 10.0);
+    public static final Filme filme4 = filme().comValor(10.00).agora(); //new Filme("Filme 4", 5, 10.0);
+    public static final Filme filme5 = filme().comValor(10.00).agora(); //new Filme("Filme 5", 5, 10.0);
+    public static final Filme filme6 = filme().comValor(10.00).agora(); //new Filme("Filme 6", 5, 10.0);
+    public static final Filme filme7 = filme().comValor(10.00).agora(); //new Filme("Filme 7", 5, 10.0);
 
     @Parameters(name = "{2}")
     public static Collection<Object[]> getParametros() {
@@ -63,7 +66,7 @@ public class CalculoValorLocacaoTest {
     @Test
     public void deveCalcularValorLocacaoConsiderandoDesconto() throws FilmeSemEstoqueException, LocadoraException {
         //cenario
-        Usuario usuario = new Usuario("Usuario 1");
+        Usuario usuario = usuario().agora(); //new Usuario("Usuario 1");
 
         // acao
         Locacao locacao = service.alugarFilme(usuario, filmes);
