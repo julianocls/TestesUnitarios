@@ -1,15 +1,11 @@
+package br.ce.wcaquino.servicos;
 
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.servicos.LocacaoService;
-import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
-import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
-import static org.hamcrest.CoreMatchers.is;
-
 import br.ce.wcaquino.servicos.exception.FilmeSemEstoqueException;
 import br.ce.wcaquino.servicos.exception.LocadoraException;
-import br.ce.wcaquino.utils.DataUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,11 +13,12 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import static br.ce.wcaquino.macher.MarchersProprios.*;
+import static br.ce.wcaquino.utils.DataUtils.isMesmaData;
+import static br.ce.wcaquino.utils.DataUtils.obterDataComDiferencaDias;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class LocacaoServiceTest {
@@ -47,7 +44,7 @@ public class LocacaoServiceTest {
         Locacao locacao = getLocacao();
 
         //verificação
-        assertThat( locacao.getValorPagamento(), is(30.0));
+        assertThat(locacao.getValorPagamento(), is(30.0));
         assertEquals(30.0, locacao.getValorPagamento(), 0.01);
     }
 
@@ -59,8 +56,8 @@ public class LocacaoServiceTest {
         Locacao locacao = getLocacao();
 
         //verificação
-        assertThat( isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-        assertTrue( isMesmaData(locacao.getDataLocacao(), new Date()));
+        assertThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+        assertTrue(isMesmaData(locacao.getDataLocacao(), new Date()));
     }
 
     /**
@@ -71,8 +68,8 @@ public class LocacaoServiceTest {
         Locacao locacao = getLocacao();
 
         //verificação
-        assertThat( isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
-        assertTrue( isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)));
+        assertThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+        assertTrue(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)));
     }
 
     /**
@@ -83,9 +80,11 @@ public class LocacaoServiceTest {
         Locacao locacao = getLocacao();
 
         //verificação
-        erro.checkThat( locacao.getValorPagamento(), is(30.0));
-        erro.checkThat( isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
-        erro.checkThat( isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+        erro.checkThat(locacao.getValorPagamento(), is(30.0));
+        //erro.checkThat(isMesmaData(locacao.getDataLocacao(), new Date()), is(true));
+        erro.checkThat(locacao.getDataLocacao(), eHoje());
+        //erro.checkThat(isMesmaData(locacao.getDataRetorno(), obterDataComDiferencaDias(1)), is(true));
+        erro.checkThat(locacao.getDataRetorno(), eHojeComDiferencaDias(1));
     }
 
     private Locacao getLocacao() throws Exception {
@@ -113,7 +112,7 @@ public class LocacaoServiceTest {
         List<Filme> filmes = Arrays.asList(filme1, filme2);
 
         //acao
-        Locacao locacao = service.alugarFilme(usuario, filmes);
+        service.alugarFilme(usuario, filmes);
     }
 
     /**
@@ -130,7 +129,7 @@ public class LocacaoServiceTest {
 
         //acao
         try {
-            Locacao locacao = service.alugarFilme(usuario, filmes);
+            service.alugarFilme(usuario, filmes);
 
             Assert.fail("Deveria ter lançado uma exception");
         } catch (Exception e) {
@@ -154,7 +153,7 @@ public class LocacaoServiceTest {
         exception.expectMessage("Filme sem estoque");
 
         //acao
-        Locacao locacao = service.alugarFilme(usuario, filmes);
+        service.alugarFilme(usuario, filmes);
     }
 
     /**
@@ -345,13 +344,16 @@ public class LocacaoServiceTest {
         Usuario usuario = new Usuario("Usuário Xpto");
         Filme filme = new Filme("As tranças da vovó careca", 20, 6.50);
 
-        List<Filme> filmes = Arrays.asList(filme);
+        List<Filme> filmes = Collections.singletonList(filme);
 
         // ação
         Locacao locacao = service.alugarFilme(usuario, filmes);
 
         // Verificação
-        boolean isMonday = DataUtils.verificarDiaSemana(locacao.getDataRetorno(), Calendar.MONDAY);
-        assertTrue(isMonday);
+        //boolean isMonday = DataUtils.verificarDiaSemana(locacao.getDataRetorno(), Calendar.MONDAY);
+        //assertTrue(isMonday);
+        //assertThat(locacao.getDataRetorno(), new DiaSemanaMacher(Calendar.MONDAY) );
+        assertThat(locacao.getDataRetorno(), caiEm(Calendar.MONDAY));
+        assertThat(locacao.getDataRetorno(), caiNumaSegunda());
     }
 }

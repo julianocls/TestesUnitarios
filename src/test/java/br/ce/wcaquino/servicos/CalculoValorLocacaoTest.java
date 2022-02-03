@@ -1,13 +1,16 @@
+package br.ce.wcaquino.servicos;
+
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
-import br.ce.wcaquino.servicos.LocacaoService;
 import br.ce.wcaquino.servicos.exception.FilmeSemEstoqueException;
 import br.ce.wcaquino.servicos.exception.LocadoraException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,13 +29,13 @@ public class CalculoValorLocacaoTest {
         service = new LocacaoService();
     }
 
-    @Parameterized.Parameter(value = 0)
+    @Parameter(value = 0)
     public List<Filme> filmes;
 
-    @Parameterized.Parameter(value = 1)
+    @Parameter(value = 1)
     public Double desconto;
 
-    @Parameterized.Parameter(value = 2)
+    @Parameter(value = 2)
     public String cenario;
 
     public static final Filme filme1 = new Filme("Filme 1", 2, 10.0);
@@ -43,7 +46,7 @@ public class CalculoValorLocacaoTest {
     public static final Filme filme6 = new Filme("Filme 6", 5, 10.0);
     public static final Filme filme7 = new Filme("Filme 7", 5, 10.0);
 
-    @Parameterized.Parameters(name = "{2}")
+    @Parameters(name = "{2}")
     public static Collection<Object[]> getParametros() {
         return Arrays.asList(
                 new Object[][]{

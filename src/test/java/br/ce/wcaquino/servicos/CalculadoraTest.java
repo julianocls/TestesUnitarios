@@ -1,3 +1,5 @@
+package br.ce.wcaquino.servicos;
+
 import br.ce.wcaquino.servicos.Calculadora;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
