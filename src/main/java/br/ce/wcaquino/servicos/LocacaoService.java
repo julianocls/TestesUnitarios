@@ -2,6 +2,7 @@ package br.ce.wcaquino.servicos;
 
 import static br.ce.wcaquino.utils.DataUtils.adicionarDias;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
 import br.ce.wcaquino.servicos.exception.FilmeSemEstoqueException;
 import br.ce.wcaquino.servicos.exception.LocadoraException;
+import br.ce.wcaquino.utils.DataUtils;
 
 public class LocacaoService {
 
@@ -35,25 +37,30 @@ public class LocacaoService {
 			totalPrecoLocacao += filme.getPrecoLocacao();
 		}
 
-		Double desconto = getValorTotalDescontos(filmes);
-		totalPrecoLocacao -= desconto;
-
 		Locacao locacao = new Locacao();
 		locacao.setFilmes(filmes);
 		locacao.setUsuario(usuario);
 		locacao.setDataLocacao(new Date());
-		locacao.setValor(totalPrecoLocacao);
-		locacao.setTotalDescontos(desconto);
+		locacao.setTotalPrecoLocacao(totalPrecoLocacao);
+		locacao.setTotalDescontos(getValorTotalDescontos(filmes));
+		locacao.setValorPagamento(locacao.getTotalPrecoLocacao() - locacao.getTotalDescontos());
 
 		//Entrega no dia seguinte
 		Date dataEntrega = new Date();
 		dataEntrega = adicionarDias(dataEntrega, 1);
+		if(isDomingo(dataEntrega)){
+			dataEntrega = adicionarDias(dataEntrega, 1);
+		}
 		locacao.setDataRetorno(dataEntrega);
 
 		//Salvando a locacao...
 		//TODO adicionar método para salvar
 
 		return locacao;
+	}
+
+	private boolean isDomingo(Date dataEntrega) {
+		return DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY);
 	}
 
 	private Double getValorTotalDescontos(List<Filme> filmes) {

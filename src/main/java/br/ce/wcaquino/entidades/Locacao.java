@@ -10,8 +10,9 @@ public class Locacao {
 	private List<Filme> filmes = new ArrayList<Filme>();
 	private Date dataLocacao;
 	private Date dataRetorno;
-	private Double valor;
+	private Double valorPagamento;
 	private Double totalDescontos;
+	private Double totalPrecoLocacao;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -31,14 +32,16 @@ public class Locacao {
 	public void setDataRetorno(Date dataRetorno) {
 		this.dataRetorno = dataRetorno;
 	}
-	public Double getValor() {
-		return valor;
+	public Double getValorPagamento() {
+		return valorPagamento;
 	}
-	public void setValor(Double valor) {
-		this.valor = valor;
+	public void setValorPagamento(Double valor) {
+		this.valorPagamento = valor;
 	}
 	public List<Filme> getFilmes() {return filmes;}
 	public void setFilmes(List<Filme> filmes) {	this.filmes = filmes;}
 	public Double getTotalDescontos() {return totalDescontos;}
 	public void setTotalDescontos(Double totalDescontos) {this.totalDescontos = totalDescontos;}
+	public Double getTotalPrecoLocacao() {return totalPrecoLocacao;}
+	public void setTotalPrecoLocacao(Double totalPrecoLocacao) {this.totalPrecoLocacao = totalPrecoLocacao;}
 }
