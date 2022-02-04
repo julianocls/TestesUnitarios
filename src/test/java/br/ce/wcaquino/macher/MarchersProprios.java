@@ -3,6 +3,7 @@ package br.ce.wcaquino.macher;
 import org.hamcrest.Matcher;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class MarchersProprios {
 
@@ -18,7 +19,7 @@ public class MarchersProprios {
         return new DataLocacaoMatcher(dias);
     }
 
-    public static Matcher eHoje() {
+    public static Matcher<Date> eHoje() {
         return new DataLocacaoMatcher(0);
     }
 }

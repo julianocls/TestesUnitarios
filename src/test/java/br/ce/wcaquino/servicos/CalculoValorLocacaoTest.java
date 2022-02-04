@@ -1,6 +1,6 @@
 package br.ce.wcaquino.servicos;
 
-import br.ce.wcaquino.builder.UsuarioBuilder;
+import br.ce.wcaquino.dao.LocacaoDAO;
 import br.ce.wcaquino.entidades.Filme;
 import br.ce.wcaquino.entidades.Locacao;
 import br.ce.wcaquino.entidades.Usuario;
@@ -12,13 +12,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static br.ce.wcaquino.builder.FilmeBuilder.filme;
-import static br.ce.wcaquino.builder.UsuarioBuilder.usuario;
+import static br.ce.wcaquino.builder.FilmeBuilder.umFilme;
+import static br.ce.wcaquino.builder.UsuarioBuilder.umUsuario;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -27,9 +28,16 @@ public class CalculoValorLocacaoTest {
 
     private LocacaoService service;
 
+    private LocacaoDAO dao;
+    private SpcServiceImpl spcService;
+
     @Before
     public void setup() {
         service = new LocacaoService();
+        dao = Mockito.mock(LocacaoDAO.class);
+        service.setLocaocaoDAO(dao);
+        spcService = Mockito.mock(SpcServiceImpl.class);
+        service.setSpcService(spcService);
     }
 
     @Parameter(value = 0)
@@ -41,13 +49,13 @@ public class CalculoValorLocacaoTest {
     @Parameter(value = 2)
     public String cenario;
 
-    public static final Filme filme1 = filme().comValor(10.00).agora(); //new Filme("Filme 1", 2, 10.0);
-    public static final Filme filme2 = filme().comValor(10.00).agora(); //new Filme("Filme 2", 5, 10.0);
-    public static final Filme filme3 = filme().comValor(10.00).agora(); //new Filme("Filme 3", 5, 10.0);
-    public static final Filme filme4 = filme().comValor(10.00).agora(); //new Filme("Filme 4", 5, 10.0);
-    public static final Filme filme5 = filme().comValor(10.00).agora(); //new Filme("Filme 5", 5, 10.0);
-    public static final Filme filme6 = filme().comValor(10.00).agora(); //new Filme("Filme 6", 5, 10.0);
-    public static final Filme filme7 = filme().comValor(10.00).agora(); //new Filme("Filme 7", 5, 10.0);
+    public static final Filme filme1 = umFilme().comValor(10.00).agora(); //new Filme("Filme 1", 2, 10.0);
+    public static final Filme filme2 = umFilme().comValor(10.00).agora(); //new Filme("Filme 2", 5, 10.0);
+    public static final Filme filme3 = umFilme().comValor(10.00).agora(); //new Filme("Filme 3", 5, 10.0);
+    public static final Filme filme4 = umFilme().comValor(10.00).agora(); //new Filme("Filme 4", 5, 10.0);
+    public static final Filme filme5 = umFilme().comValor(10.00).agora(); //new Filme("Filme 5", 5, 10.0);
+    public static final Filme filme6 = umFilme().comValor(10.00).agora(); //new Filme("Filme 6", 5, 10.0);
+    public static final Filme filme7 = umFilme().comValor(10.00).agora(); //new Filme("Filme 7", 5, 10.0);
 
     @Parameters(name = "{2}")
     public static Collection<Object[]> getParametros() {
@@ -66,7 +74,7 @@ public class CalculoValorLocacaoTest {
     @Test
     public void deveCalcularValorLocacaoConsiderandoDesconto() throws FilmeSemEstoqueException, LocadoraException {
         //cenario
-        Usuario usuario = usuario().agora(); //new Usuario("Usuario 1");
+        Usuario usuario = umUsuario().agora(); //new Usuario("Usuario 1");
 
         // acao
         Locacao locacao = service.alugarFilme(usuario, filmes);

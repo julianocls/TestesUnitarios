@@ -9,7 +9,7 @@ public class FilmeBuilder {
     private FilmeBuilder() {
     }
 
-    public static FilmeBuilder filme() {
+    public static FilmeBuilder umFilme() {
         FilmeBuilder builder = new FilmeBuilder();
         builder.filme = new Filme("Filme 1", 2, 10.0);
         return builder;
