@@ -60,6 +60,11 @@ public class LocacaoBuilder {
 		return this;
 	}
 
+	public LocacaoBuilder comAtraso() {
+		locacao.setDataLocacao(DataUtils.obterDataComDiferencaDias(-4));
+		locacao.setDataRetorno(DataUtils.obterDataComDiferencaDias(-2));
+		return this;
+	}
 
 	public LocacaoBuilder comDataRetorno(Date param) {
 		locacao.setDataRetorno(param);
