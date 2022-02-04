@@ -5,8 +5,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import br.ce.wcaquino.servicos.exception.NaoPodeDividirPorZeroException;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 public class CalculadoraTest {
 
@@ -15,6 +19,18 @@ public class CalculadoraTest {
     @Before
     public void setup() {
         calc = new Calculadora();
+    }
+
+    @Test
+    public void test() {
+        Calculadora calc = Mockito.mock(Calculadora.class);
+
+        ArgumentCaptor<Integer> argCpt = ArgumentCaptor.forClass(Integer.class);
+        Mockito.when(calc.somar(argCpt.capture(), argCpt.capture())).thenReturn(5);
+
+        Assert.assertEquals(5, calc.somar(1, 564));
+
+        System.out.println(argCpt.getAllValues());
     }
 
     @Test
@@ -68,4 +84,5 @@ public class CalculadoraTest {
         // verificacao
         fail("Não pode dividir por zero!");
     }
+
 }
