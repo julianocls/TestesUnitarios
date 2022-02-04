@@ -26,7 +26,14 @@ public class LocacaoService {
             throw new LocadoraException("Usuario vazio");
         }
 
-        if (spcService.possuiNegativacao(usuario)) {
+        boolean possuiNegativacao;
+        try {
+            possuiNegativacao = spcService.possuiNegativacao(usuario);
+        } catch (Exception e) {
+            throw new LocadoraException("Erro na comunicação com o SPC, tente novamente!");
+        }
+
+        if (possuiNegativacao) {
             throw new LocadoraException("Usuário Negativado!");
         }
 
@@ -90,6 +97,7 @@ public class LocacaoService {
         return posicao > (desconto.length - 1) ? 0 : desconto[posicao] / 100;
     }
 
+    /* descontinuado por utilizar mockito
     public void setLocaocaoDAO(LocacaoDAO dao) {
         this.dao = dao;
     }
@@ -100,7 +108,7 @@ public class LocacaoService {
 
 	public void setEmailService(EmailService service) {
 		this.emailService = service;
-	}
+	}*/
 
     public static Date dataRetorno(Date param) {
         Date dataRetorno = adicionarDias(param, 1);

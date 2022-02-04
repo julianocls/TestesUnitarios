@@ -16,9 +16,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
+import java.lang.reflect.Executable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneId;
@@ -34,28 +37,35 @@ import static org.junit.Assert.*;
 
 public class LocacaoServiceTest {
 
+    @InjectMocks
     private LocacaoService service;
+
+    @Mock
     private SpcServiceImpl spcService;
+    @Mock
     private LocacaoDAO dao;
+    @Mock
+    private EmailService emailService;
 
     @Rule
     public ErrorCollector erro = new ErrorCollector();
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
-    private EmailService emailService;
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+
+        /* utilizando injecao de mocks
         service = new LocacaoService();
         dao = Mockito.mock(LocacaoDAO.class);
         service.setLocaocaoDAO(dao);
-
         spcService = Mockito.mock(SpcServiceImpl.class);
         service.setSpcService(spcService);
-
         emailService = Mockito.mock(EmailService.class);
         service.setEmailService(emailService);
+        */
     }
 
     /**
@@ -182,7 +192,7 @@ public class LocacaoServiceTest {
      * Teste robusto
      */
     @Test
-    public void naoDeveAlugarFilmeSemUsuario() throws FilmeSemEstoqueException {
+    public void naoDeveAlugarFilmeSemUsuario() throws Exception {
         //cenario
         Usuario usuario = null; //UsuarioBuilder.usuario().get();
         Filme filme1 = umFilme().agora(); // new Filme("Filme 1", 10, 5.0);
@@ -204,7 +214,7 @@ public class LocacaoServiceTest {
      * Teste robusto
      */
     @Test
-    public void naoDeveAlugarFilmeSemFilme() throws FilmeSemEstoqueException {
+    public void naoDeveAlugarFilmeSemFilme() throws Exception {
         //cenario
         Usuario usuario = umUsuario().agora();
         Filme filme1 = null; //new Filme("Filme 1", 2, 5.0);
@@ -385,7 +395,7 @@ public class LocacaoServiceTest {
     }
 
     @Test
-    public void naoDeveAlugarParaNegativado() throws FilmeSemEstoqueException {
+    public void naoDeveAlugarParaNegativado() throws Exception {
         // cenario
         Usuario usuario = umUsuario().agora();
         List<Filme> filmes = Collections.singletonList(FilmeBuilder.umFilme().agora());
@@ -439,5 +449,21 @@ public class LocacaoServiceTest {
         Mockito.verify(emailService, Mockito.atLeastOnce()).notificarAtraso(usuario3); // enviou no minimo 1 email
         Mockito.verify(emailService, Mockito.never()).notificarAtraso(usuario2); // verificar que nao recebeu (never ega o verify)
         Mockito.verifyNoMoreInteractions(emailService); // quantidade de chamadas no emailService
+    }
+
+    @Test
+    public void deveTratarErroNoSPC() throws Exception {
+        // cenario
+        Usuario usuario = UsuarioBuilder.umUsuario().agora();
+        List<Filme> filmes = Collections.singletonList(FilmeBuilder.umFilme().agora());
+
+        Mockito.when(spcService.possuiNegativacao(usuario)).thenThrow(new Exception("Erro catastrófico"));
+
+        // verificacao
+        exception.expect(LocadoraException.class);
+        exception.expectMessage("Erro na comunicação com o SPC, tente novamente!");
+
+        // acao
+        service.alugarFilme(usuario, filmes);
     }
 }
