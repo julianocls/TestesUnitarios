@@ -44,4 +44,6 @@ public class Locacao {
 	public void setTotalDescontos(Double totalDescontos) {this.totalDescontos = totalDescontos;}
 	public Double getTotalPrecoLocacao() {return totalPrecoLocacao;}
 	public void setTotalPrecoLocacao(Double totalPrecoLocacao) {this.totalPrecoLocacao = totalPrecoLocacao;}
+    public void setValor(Double valorTotal) {setTotalPrecoLocacao(totalPrecoLocacao);}
+	public Double getValor() {return getTotalPrecoLocacao();}
 }

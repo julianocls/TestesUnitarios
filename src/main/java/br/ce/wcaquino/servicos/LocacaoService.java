@@ -63,8 +63,17 @@ public class LocacaoService {
         locacao.setValorPagamento(locacao.getTotalPrecoLocacao() - locacao.getTotalDescontos());
 
         //Entrega no dia seguinte
+        /*
         Date dataLocacao = locacao.getDataLocacao();
         locacao.setDataRetorno(dataRetorno(dataLocacao));
+        */
+
+        Date dataEntrega = new Date();
+        dataEntrega = adicionarDias(dataEntrega, 1);
+        if (DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
+            dataEntrega = adicionarDias(dataEntrega, 1);
+        }
+        locacao.setDataRetorno(dataEntrega);
 
         //Salvando a locacao...
         dao.salvar(locacao);
