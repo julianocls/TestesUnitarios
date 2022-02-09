@@ -1,0 +1,13 @@
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/SpcServiceImpl.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/exception/NaoPodeDividirPorZeroException.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/dao/LocacaoDAOFake.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/exception/FilmeSemEstoqueException.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/Calculadora.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/utils/DataUtils.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/dao/LocacaoDAO.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/entidades/Filme.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/exception/LocadoraException.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/entidades/Locacao.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/entidades/Usuario.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/LocacaoService.java
+/Users/julianosantos/development/workspace_qa/TestesUnitarios/src/main/java/br/ce/wcaquino/servicos/EmailService.java

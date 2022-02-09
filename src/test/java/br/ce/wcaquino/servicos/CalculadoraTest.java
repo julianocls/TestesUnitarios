@@ -1,17 +1,20 @@
 package br.ce.wcaquino.servicos;
 
-import br.ce.wcaquino.servicos.Calculadora;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import br.ce.wcaquino.runners.ParallelRunner.ParallelRunner;
 import br.ce.wcaquino.servicos.exception.NaoPodeDividirPorZeroException;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+//@RunWith(ParallelRunner.class) usando maven
 public class CalculadoraTest {
 
     private Calculadora calc;
@@ -19,6 +22,12 @@ public class CalculadoraTest {
     @Before
     public void setup() {
         calc = new Calculadora();
+        System.out.println("Beginner....");
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("Finishing...");
     }
 
     @Test
@@ -43,7 +52,7 @@ public class CalculadoraTest {
         int resultado = calc.somar(a, b);
 
         // verificação
-        assertEquals( 7, resultado );
+        assertEquals(7, resultado);
     }
 
     @Test
@@ -72,7 +81,7 @@ public class CalculadoraTest {
         assertEquals(4, resultado);
     }
 
-    @Test( expected = NaoPodeDividirPorZeroException.class)
+    @Test(expected = NaoPodeDividirPorZeroException.class)
     public void deveLancarNaoPodeDividirPorZeroExceptionAoDividirPorZero() throws NaoPodeDividirPorZeroException {
         // cenario
         int a = 8;

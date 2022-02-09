@@ -57,7 +57,7 @@ public class LocacaoService {
         Locacao locacao = new Locacao();
         locacao.setFilmes(filmes);
         locacao.setUsuario(usuario);
-        locacao.setDataLocacao(new Date());
+        locacao.setDataLocacao(obterData());
         locacao.setTotalPrecoLocacao(totalPrecoLocacao);
         locacao.setTotalDescontos(getValorTotalDescontos(filmes));
         locacao.setValorPagamento(locacao.getTotalPrecoLocacao() - locacao.getTotalDescontos());
@@ -68,7 +68,7 @@ public class LocacaoService {
         locacao.setDataRetorno(dataRetorno(dataLocacao));
         */
 
-        Date dataEntrega = new Date();
+        Date dataEntrega = obterData();
         dataEntrega = adicionarDias(dataEntrega, 1);
         if (DataUtils.verificarDiaSemana(dataEntrega, Calendar.SUNDAY)) {
             dataEntrega = adicionarDias(dataEntrega, 1);
@@ -81,10 +81,14 @@ public class LocacaoService {
         return locacao;
     }
 
-	public void notificarAtraso() {
+    protected Date obterData() {
+        return new Date();
+    }
+
+    public void notificarAtraso() {
 		List<Locacao> locacoes = dao.obterLocacoesPendentes();
 		for (Locacao locacao : locacoes) {
-            if(locacao.getDataRetorno().before(new Date())) {
+            if(locacao.getDataRetorno().before(obterData())) {
                 emailService.notificarAtraso(locacao.getUsuario());
             }
 		}
@@ -103,8 +107,13 @@ public class LocacaoService {
     }
 
     private Double getPercentualDesconto(int posicao) {
+        System.out.println("Calculando percentuais...");
         Double[] desconto = {0d, 0d, 25d, 50d, 75d, 100d};
         return posicao > (desconto.length - 1) ? 0 : desconto[posicao] / 100;
+    }
+
+    private void printMessage() {
+        System.out.println("teste");
     }
 
     /* descontinuado por utilizar mockito
